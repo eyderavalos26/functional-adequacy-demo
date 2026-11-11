@@ -1,0 +1,105 @@
+{
+  "project": "functional-adequacy-demo",
+  "description": "API de inventario para la demostración de adecuación funcional de VERAUD",
+  "requirements": [
+    {
+      "id": "REQ-01",
+      "title": "Listar productos",
+      "description": "La API debe devolver todos los productos registrados y una lista vacía cuando no existan productos.",
+      "expected_status": "implemented",
+      "acceptance_criteria": [
+        "GET /products devuelve 200",
+        "La respuesta contiene todos los productos",
+        "Sin productos, la respuesta es una lista vacía"
+      ]
+    },
+    {
+      "id": "REQ-02",
+      "title": "Consultar productos por ID",
+      "description": "La API debe devolver un producto por su identificador o un error 404 si no existe.",
+      "expected_status": "defective",
+      "acceptance_criteria": [
+        "GET /products/{product_id} devuelve el producto solicitado",
+        "El producto incluye id, name, price, stock y ratings",
+        "Un ID inexistente produce 404"
+      ],
+      "defect_id": "DEF-01"
+    },
+    {
+      "id": "REQ-03",
+      "title": "Crear productos con validación",
+      "description": "La API debe crear productos válidos y rechazar nombre vacío, precio negativo, stock negativo y valoraciones fuera de rango.",
+      "expected_status": "implemented",
+      "acceptance_criteria": [
+        "POST /products devuelve 201 para datos válidos",
+        "El nombre no puede estar vacío",
+        "El precio no puede ser negativo",
+        "El stock no puede ser negativo",
+        "Las valoraciones deben estar entre 0 y 5",
+        "Los datos inválidos producen 422"
+      ]
+    },
+    {
+      "id": "REQ-04",
+      "title": "Actualizar stock sin valores negativos",
+      "description": "La API debe actualizar el stock de un producto existente y rechazar valores negativos.",
+      "expected_status": "implemented",
+      "acceptance_criteria": [
+        "PATCH /products/{product_id}/stock actualiza el stock",
+        "El valor límite 0 es válido",
+        "Un stock negativo produce 422",
+        "Un producto inexistente produce 404"
+      ]
+    },
+    {
+      "id": "REQ-05",
+      "title": "Eliminar productos",
+      "description": "La API debe eliminar un producto y dejar de exponerlo en el inventario.",
+      "expected_status": "defective",
+      "acceptance_criteria": [
+        "DELETE /products/{product_id} devuelve 204",
+        "El producto eliminado no aparece en el listado",
+        "El producto eliminado no existe en el repositorio"
+      ],
+      "defect_id": "DEF-02"
+    },
+    {
+      "id": "REQ-06",
+      "title": "Calcular el promedio de valoraciones",
+      "description": "La API debe calcular la media aritmética de las valoraciones de un producto.",
+      "expected_status": "defective",
+      "acceptance_criteria": [
+        "GET /products/{product_id}/average-rating devuelve el promedio",
+        "Las valoraciones [4.0, 5.0] producen 4.5",
+        "Un producto inexistente produce 404"
+      ],
+      "defect_id": "DEF-03"
+    },
+    {
+      "id": "REQ-07",
+      "title": "Calcular correctamente el total de una compra",
+      "description": "La API debe calcular el total como la suma de precio unitario por cantidad.",
+      "expected_status": "defective",
+      "acceptance_criteria": [
+        "POST /purchases/total devuelve el total de la compra",
+        "El total es la suma de price * quantity",
+        "Una compra vacía produce 0.0",
+        "Una cantidad menor o igual que cero produce 422",
+        "Un producto inexistente produce 404"
+      ],
+      "defect_id": "DEF-04"
+    },
+    {
+      "id": "REQ-08",
+      "title": "Validar contraseñas de mínimo ocho caracteres",
+      "description": "El sistema debe validar que una contraseña tenga al menos ocho caracteres.",
+      "expected_status": "implemented",
+      "acceptance_criteria": [
+        "POST /passwords/validate devuelve true con ocho o más caracteres",
+        "Devuelve false con siete caracteres o menos",
+        "El valor límite de ocho caracteres es válido",
+        "Un valor que no sea cadena devuelve false"
+      ]
+    }
+  ]
+}

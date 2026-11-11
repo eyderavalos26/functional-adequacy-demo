@@ -1,0 +1,92 @@
+{
+  "project": "functional-adequacy-demo",
+  "intentional_defect_count": 4,
+  "expected_failures": 5,
+  "defects": [
+    {
+      "id": "DEF-01",
+      "requirement": "REQ-02",
+      "severity": "high",
+      "file": "src/inventory/service.py",
+      "symbol": "InventoryService.get_product",
+      "defect_type": "not_implemented_stub",
+      "marker": "NotImplementedError",
+      "description": "El método lanza NotImplementedError en lugar de devolver el producto solicitado.",
+      "failing_tests": [
+        "tests/test_inventory.py::test_req02_get_product_by_id_expected_failure"
+      ]
+    },
+    {
+      "id": "DEF-02",
+      "requirement": "REQ-05",
+      "severity": "high",
+      "file": "src/inventory/service.py",
+      "symbol": "InventoryService.delete_product",
+      "defect_type": "empty_stub",
+      "marker": "pass",
+      "description": "El método no elimina el producto porque su cuerpo es pass.",
+      "failing_tests": [
+        "tests/test_inventory.py::test_req05_delete_product_expected_failure"
+      ]
+    },
+    {
+      "id": "DEF-03",
+      "requirement": "REQ-06",
+      "severity": "high",
+      "file": "src/inventory/service.py",
+      "symbol": "InventoryService.average_rating",
+      "defect_type": "ellipsis_stub",
+      "marker": "...",
+      "description": "El método no calcula el promedio porque su cuerpo es una elipsis y devuelve None.",
+      "failing_tests": [
+        "tests/test_inventory.py::test_req06_average_rating_expected_failure"
+      ]
+    },
+    {
+      "id": "DEF-04",
+      "requirement": "REQ-07",
+      "severity": "high",
+      "file": "src/inventory/service.py",
+      "symbol": "InventoryService.calculate_total",
+      "defect_type": "logical_error",
+      "marker": null,
+      "description": "El método suma el precio unitario de cada línea sin multiplicarlo por la cantidad, por lo que el total es incorrecto cuando quantity es mayor que uno.",
+      "failing_tests": [
+        "tests/test_inventory.py::test_req07_calculate_total_multiple_quantities_expected_failure",
+        "tests/test_inventory.py::test_req07_calculate_total_api_expected_failure"
+      ]
+    }
+  ],
+  "expected_passing_requirements": [
+    "REQ-01",
+    "REQ-03",
+    "REQ-04",
+    "REQ-08"
+  ],
+  "expected_passing_tests": [
+    "test_req01_list_products",
+    "test_req01_list_products_empty",
+    "test_req01_list_products_api",
+    "test_req03_create_product_valid",
+    "test_req03_create_product_api_valid",
+    "test_req03_create_product_rejects_empty_name",
+    "test_req03_create_product_rejects_negative_price",
+    "test_req03_create_product_rejects_negative_stock",
+    "test_req03_create_product_rejects_invalid_rating",
+    "test_req03_create_product_api_rejects_invalid_payload",
+    "test_req04_update_stock",
+    "test_req04_update_stock_boundary_zero",
+    "test_req04_update_stock_rejects_negative",
+    "test_req04_update_stock_rejects_unknown_product",
+    "test_req04_update_stock_api_negative",
+    "test_req04_update_stock_api_valid",
+    "test_req07_calculate_total_single_unit",
+    "test_req07_calculate_total_empty_purchase",
+    "test_req07_calculate_total_rejects_zero_quantity",
+    "test_req08_validate_password_boundaries",
+    "test_req08_validate_password_empty",
+    "test_req08_validate_password_rejects_non_string",
+    "test_req08_validate_password_api_rejects_non_string_values",
+    "test_req08_validate_password_api"
+  ]
+}
